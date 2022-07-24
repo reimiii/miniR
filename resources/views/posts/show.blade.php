@@ -17,6 +17,16 @@
                                 </div>
                             </div>
                         @endif
+                        @if($post->post_image)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img src="{{ asset('storage/posts/' . $post->id . '/' . $post->post_image ) }}"
+                                         class="img-fluid"
+                                         alt="{{ $post->title }}">
+                                    >
+                                </div>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-12">
                                 <p>{{ $post->post_text }}</p>
@@ -42,7 +52,8 @@
                                             @method('DELETE')
                                             <button onclick="return confirm('Are you sure?')"
                                                     type="submit"
-                                                    class="btn btn-sm btn-danger">Delete</button>
+                                                    class="btn btn-sm btn-danger">Delete
+                                            </button>
                                         </form>
                                     </div>
                                 @endif
