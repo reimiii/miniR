@@ -24,21 +24,21 @@ class PostController extends Controller {
 
     public function store(StorePostRequest $request, Community $community)
     {
-        $image = '';
+
+        $post = $community->posts()->create([
+            'user_id'   => auth()->id(),
+            'title'     => $request->title,
+            'post_url'  => $request->post_url ?? '',
+            'post_text' => $request->post_text ?? '',
+        ]);
 
         if ( $request->hasFile('post_image') ) {
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')
-                ->storeAs('posts', $image);
+                ->storeAs('posts/' . $post->id, $image);
+            $post->update(['post_image' => $image]);
         }
 
-        $community->posts()->create([
-            'user_id'    => auth()->id(),
-            'post_image' => $image,
-            'title'      => $request->title,
-            'post_url'   => $request->post_url ?? '',
-            'post_text'  => $request->post_text ?? '',
-        ]);
 
         return redirect()->route('communities.show', $community);
     }
@@ -69,7 +69,26 @@ class PostController extends Controller {
             abort(403);
         }
 
-        $post->update($request->validated());
+        $post->update([
+            'title'     => $request->title,
+            'post_url'  => $request->post_url ?? '',
+            'post_text' => $request->post_text ?? '',
+        ]);
+
+//        $post->update($request->validated());
+
+        if ( $request->hasFile('post_image') ) {
+            $image = $request->file('post_image')->getClientOriginalName();
+            $request->file('post_image')
+                ->storeAs('posts/' . $post->id, $image);
+
+            if ($post->post_image != '') {
+                unlink(storage_path('app/public/posts/' . $post->id . '/' . $post->post_image));
+            }
+
+            $post->update(['post_image' => $image]);
+        }
+
 
         return redirect()->route('communities.posts.show', [
             $community,

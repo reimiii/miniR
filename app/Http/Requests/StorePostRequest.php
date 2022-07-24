@@ -24,21 +24,21 @@ class StorePostRequest extends FormRequest {
     public function rules()
     {
         return [
-            'title'     => [
+            'title'      => [
                 'required',
                 'string',
             ],
-//            'post_image' => [
-//                'nullable',
-//                'image',
-//                'mimes:jpeg,png,jpg,gif,svg',
-//                'max:2048'
-//            ],
-            'post_url'  => [
+            'post_image' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048'
+            ],
+            'post_url'   => [
                 'nullable',
                 'url',
             ],
-            'post_text' => [
+            'post_text'  => [
                 'nullable',
                 'string',
             ],

@@ -6,12 +6,13 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        {{ $community->name }}: Edit Post
+                        In {{ $community->name }}: Edit Post
                     </div>
                     
                     <div class="card-body">
                         
                         <form method="POST"
+                              enctype="multipart/form-data"
                               action="{{ route('communities.posts.update', [$community, $post]) }}">
                             @csrf
                             @method('PUT')
@@ -73,6 +74,23 @@
                                 </div>
                             </div>
                             
+                            
+                            @if ($post->post_image)
+                                <div class="row mb-3">
+                                    <label for="post_image"
+                                           class="col-md-4 col-form-label text-md-end">
+                                        {{ __('Post Image') }}
+                                    </label>
+                                    
+                                    <div class="col-md-6">
+                                        <img src="{{ asset('storage/posts/' . $post->id . '/' . $post->post_image ) }}"
+                                             class="img-thumbnail"
+                                             alt="{{ $post->title }}">
+                                    </div>
+                                </div>
+                            @endif
+                            
+                            
                             <div class="row mb-3">
                                 <label for="post_image"
                                        class="col-md-4 col-form-label text-md-end">
@@ -97,6 +115,11 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Save') }}
                                     </button>
+                                    <a href="{{ route('communities.posts.show', [$community, $post])
+                                     }}"
+                                       class="btn btn-secondary">
+                                        {{ __('Cancel') }}
+                                    </a>
                                 </div>
                             </div>
                         </form>
