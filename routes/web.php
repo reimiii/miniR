@@ -35,6 +35,8 @@ Route::group([
 
     Route::resource('communities.posts', App\Http\Controllers\PostController::class);
 
+    Route::resource('posts.comments', App\Http\Controllers\CommentController::class);
+
     Route::get('posts/{post_id}/vote/{vote}', [
         App\Http\Controllers\PostVoteController::class,
         'store'

@@ -39,13 +39,13 @@
                         
                         @auth
                             <div class="row">
-    
+                                
                                 <div class="col-md-6">
                                     <a href="{{ route('communities.show', [$community]) }}"
                                        class="btn btn-sm btn-secondary">
                                         {{ __('Back to Community') }}
                                     </a>
-                                @if($post->user_id === auth()->id())
+                                    @if($post->user_id === auth()->id())
                                         <a href="{{ route('communities.posts.edit', [$community, $post]) }}"
                                            class="btn btn-sm
                                 btn-primary">Edit</a>
@@ -59,7 +59,7 @@
                                                     class="btn btn-sm btn-danger">Delete
                                             </button>
                                         </form>
-                                    </div>
+                                </div>
                                 @endif
                             </div>
                         
@@ -70,4 +70,9 @@
             </div>
         </div>
     </div>
+    
+    @include('comments.index', [
+    'post' => $post
+    ])
+
 @endsection
