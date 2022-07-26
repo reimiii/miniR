@@ -10,7 +10,7 @@
                     <div class="card-body">
                         
                         @if($post->post_url)
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-md-12">
                                     <a href="{{ $post->post_url }}"
                                        target="_blank">{{ $post->post_url }}</a>
@@ -23,11 +23,10 @@
                                     <img src="{{ asset('storage/posts/' . $post->id . '/' . $post->post_image ) }}"
                                          class="img-fluid"
                                          alt="{{ $post->title }}">
-                                    >
                                 </div>
                             </div>
                         @endif
-                        <div class="row">
+                        <div class="row mt-1">
                             <div class="col-md-12">
                                 <p>{{ $post->post_text }}</p>
                             </div>
@@ -40,8 +39,13 @@
                         
                         @auth
                             <div class="row">
+    
+                                <div class="col-md-6">
+                                    <a href="{{ route('communities.show', [$community]) }}"
+                                       class="btn btn-sm btn-secondary">
+                                        {{ __('Back to Community') }}
+                                    </a>
                                 @if($post->user_id === auth()->id())
-                                    <div class="col-md-6">
                                         <a href="{{ route('communities.posts.edit', [$community, $post]) }}"
                                            class="btn btn-sm
                                 btn-primary">Edit</a>

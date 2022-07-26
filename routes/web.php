@@ -17,15 +17,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes([ 'verify' => true ]);
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::group([
+    'middleware' => [
+        'auth',
+        'verified'
+    ]
+], function () {
 
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [
+        App\Http\Controllers\HomeController::class,
+        'index'
+    ])->name('home');
 
     Route::resource('communities', App\Http\Controllers\CommunityController::class);
 
     Route::resource('communities.posts', App\Http\Controllers\PostController::class);
+
+    Route::get('posts/{post_id}/vote/{vote}', [
+        App\Http\Controllers\PostVoteController::class,
+        'store'
+    ])->name('posts.vote');
 
 });
 
