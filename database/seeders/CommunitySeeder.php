@@ -13,6 +13,6 @@ class CommunitySeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Community::factory(10)->create();
     }
 }

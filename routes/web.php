@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [
+    App\Http\Controllers\HomeController::class,
+    'index'
+])->name('home');
 
 Auth::routes([ 'verify' => true ]);
 
@@ -26,10 +27,6 @@ Route::group([
     ]
 ], function () {
 
-    Route::get('/home', [
-        App\Http\Controllers\HomeController::class,
-        'index'
-    ])->name('home');
 
     Route::resource('communities', App\Http\Controllers\CommunityController::class);
 
@@ -41,6 +38,11 @@ Route::group([
         App\Http\Controllers\PostVoteController::class,
         'store'
     ])->name('posts.vote');
+
+    Route::post('posts/{post_id}/report', [
+        App\Http\Controllers\PostVoteController::class,
+        'report'
+    ])->name('posts.report');
 
 });
 

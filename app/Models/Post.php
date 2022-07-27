@@ -21,6 +21,11 @@ class Post extends Model {
         'community_id',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function community(): BelongsTo
     {
         return $this->belongsTo(Community::class);
@@ -29,6 +34,17 @@ class Post extends Model {
     public function comments()
     {
         return $this->hasMany(Comment::class)->latest();
+    }
+
+    public function votesThisWeek()
+    {
+        return $this->hasMany(PostVote::class)
+            ->where('post_votes.created_at', '>=', now()->subDays(7));
+    }
+
+    public function postVotes()
+    {
+        return $this->hasMany(PostVote::class);
     }
 
 }

@@ -17,7 +17,8 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
           rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+          rel="stylesheet"/>
     
     
     <!-- Styles -->
@@ -94,7 +95,77 @@
     </nav>
     
     <main class="py-4">
-        @yield('content')
+        
+        <div class="container">
+            <div class="row ">
+                
+                <div class="col-6 col-md-4">
+                    
+                    <div class="card">
+                        <div class="card-header">{{ __('News Post') }}</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="list-group">
+                                        @forelse($newestPosts as $post)
+                                            <li class="list-group-item">
+                                                <a href="{{ route('communities.posts.show',
+                                                [$post->community, $post]) }}">
+                                                    {{ $post->title }}
+                                                </a>
+                                            </li>
+                                        @empty
+                                            <li class="list-group-item">
+                                                {{ __('No Post') }}
+                                            </li>
+                                        @endforelse
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <div class="card">
+                            <div class="card-header">{{ __('News Community') }}</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-group">
+                                            @forelse($newestCommunities as $community)
+                                                <li class="list-group-item">
+                                                    <a href="{{ route('communities.show', $community) }}">
+                                                        {{ $community->name }}
+                                                    </a> ({{ $community->posts_count }})
+                                                </li>
+                                            @empty
+                                                <li class="list-group-item">
+                                                    {{ __('No Community') }}
+                                                </li>
+                                            @endforelse
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    @yield('content')
+    
+                    @yield('some-content')
+                </div>
+                
+            </div>
+        
+        </div>
+        
+        <div class="container-fluid">
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 
