@@ -27,7 +27,6 @@ Route::group([
     ]
 ], function () {
 
-
     Route::resource('communities', App\Http\Controllers\CommunityController::class);
 
     Route::resource('communities.posts', App\Http\Controllers\PostController::class);

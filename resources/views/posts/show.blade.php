@@ -54,8 +54,7 @@
                     <p>{{ $post->post_text }}</p>
                 </div>
             </div>
-        
-        
+            
         </div>
         
         <div class="card-footer">
@@ -67,7 +66,8 @@
                     </a>
                     @auth
                         @can('edit-post', $post)
-                            <a href="{{ route('communities.posts.edit', [$community, $post]) }}"
+                            <a href="{{ route('communities.posts.edit', [$community, $post])
+                             }}"
                                class="btn btn-sm
                                 btn-primary">Edit</a>
                         @endcan
@@ -75,7 +75,8 @@
                             
                             <form method="POST"
                                   style="display: inline-block"
-                                  action="{{ route('communities.posts.destroy', [$community, $post]) }}">
+                                  action="{{ route('communities.posts.destroy', [$community,
+                                  $post]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button onclick="return confirm('Are you sure?')"

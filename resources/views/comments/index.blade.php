@@ -10,7 +10,8 @@
                     <div class="row">
                         <div class="col-md-12">
     
-                            <form method="POST" action="{{ route('posts.comments.store', $post) }}">
+                            <form method="POST" action="{{ route('posts.comments.store', $post)
+                            }}">
         
                                 @csrf
                                 <div class="form-group">
