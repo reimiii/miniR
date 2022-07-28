@@ -16,12 +16,13 @@ class UserSeeder extends Seeder {
      */
     public function run()
     {
-        User::insert([
-            'name'              => Str::random(10),
-            'email'             => Str::random(10) . '@gmail.com',
-            'username'          => Str::random(10),
+        User::factory()->create([
+            'name'              => 'Miguel',
+            'email'             => 'imiia75775@gmail.com',
+            'username'          => 'just_miguel',
+            'password'          => bcrypt('password'),
+            'is_admin'          => true,
             'email_verified_at' => now(),
-            'password'          => Hash::make('password'),
         ]);
     }
 

@@ -13,17 +13,20 @@
                 <p class="" style="display: inline;">
                     Vote : {{ $post->votes }}
                 </p>
+                @can('delete-post', $post)
                 |
-                <form method="POST"
-                      onclick="return confirm('Are you sure you want to report this post?')"
-                      style="display: inline-block"
-                      action="{{ route('posts.report', $post->id) }}">
-                    @csrf
-                    <button
-                            type="submit"
-                            class="btn btn-sm btn-link">Report this post
-                    </button>
-                </form>
+                @else
+                    <form method="POST"
+                          onclick="return confirm('Are you sure you want to report this post?')"
+                          style="display: inline-block"
+                          action="{{ route('posts.report', $post->id) }}">
+                        @csrf
+                        <button
+                                type="submit"
+                                class="btn btn-sm btn-link">Report this post
+                        </button>
+                    </form>
+                @endcan
             </div>
         </div>
         
@@ -63,12 +66,13 @@
                         {{ __('Back to Community') }}
                     </a>
                     @auth
-                        @if($post->user_id === auth()->id())
+                        @can('edit-post', $post)
                             <a href="{{ route('communities.posts.edit', [$community, $post]) }}"
                                class="btn btn-sm
                                 btn-primary">Edit</a>
-                        @endif
-                        @if(in_array(auth()->id(), [$post->user_id, $post->community->user_id]))
+                        @endcan
+                        @can('delete-post', $post)
+                            
                             <form method="POST"
                                   style="display: inline-block"
                                   action="{{ route('communities.posts.destroy', [$community, $post]) }}">
@@ -79,8 +83,7 @@
                                         class="btn btn-sm btn-danger">Delete
                                 </button>
                             </form>
-                        @else
-                        @endif
+                        @endcan
                     @endauth
                 </div>
             </div>

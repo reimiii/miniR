@@ -18,7 +18,7 @@ class PostFactory extends Factory {
             'post_text'    => $this->faker->text(1000),
             'post_url'     => $this->faker->url,
             'user_id'      => $this->faker->numberBetween(1, 200),
-            'community_id' => $this->faker->numberBetween(1, 10),
+            'community_id' => $this->faker->numberBetween(1, 5),
             'created_at'   => $this->faker->dateTimeBetween('-1 years', 'now'),
             'updated_at'   => $this->faker->dateTimeBetween('-1 years', 'now'),
         ];

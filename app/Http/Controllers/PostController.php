@@ -6,6 +6,7 @@ use App\Models\Community;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller {
 
@@ -36,7 +37,7 @@ class PostController extends Controller {
             $image = $request->file('post_image')->getClientOriginalName();
             $request->file('post_image')
                 ->storeAs('posts/' . $post->id, $image);
-            $post->update(['post_image' => $image]);
+            $post->update([ 'post_image' => $image ]);
         }
 
 
@@ -46,6 +47,7 @@ class PostController extends Controller {
     public function show(Community $community, Post $post)
     {
         $post->load('comments.user');
+
         return view('posts.show', [
             'community' => $community,
             'post'      => $post,
@@ -54,7 +56,7 @@ class PostController extends Controller {
 
     public function edit(Community $community, Post $post)
     {
-        if ( $post->user_id !== auth()->id() ) {
+        if ( Gate::denies('edit-post', $post) ) {
             abort(403);
         }
 
@@ -66,7 +68,7 @@ class PostController extends Controller {
 
     public function update(UpdatePostRequest $request, Community $community, Post $post)
     {
-        if ( $post->user_id !== auth()->id() ) {
+        if ( Gate::denies('edit-post', $post) ) {
             abort(403);
         }
 
@@ -83,11 +85,11 @@ class PostController extends Controller {
             $request->file('post_image')
                 ->storeAs('posts/' . $post->id, $image);
 
-            if ($post->post_image != '') {
+            if ( $post->post_image != '' ) {
                 unlink(storage_path('app/public/posts/' . $post->id . '/' . $post->post_image));
             }
 
-            $post->update(['post_image' => $image]);
+            $post->update([ 'post_image' => $image ]);
         }
 
 
@@ -99,7 +101,7 @@ class PostController extends Controller {
 
     public function destroy(Community $community, Post $post)
     {
-        if ( !in_array(auth()->id(), [$post->user_id, $community->user_id]) ) {
+        if ( Gate::denies('delete-post', $post) ) {
             abort(403);
         }
 
